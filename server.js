@@ -14,21 +14,24 @@ app.use(express.json());
 const portfolioRoute = require("./routes/portfolioRoute");
 app.use("/api/portfolio", portfolioRoute);
 
-// Test API (optional)
+// Test API
 app.get("/api", (req, res) => {
   res.send("API is running...");
 });
 
-// Production: Serve React build
+// ✅ Serve React build in production
 if (process.env.NODE_ENV === "production") {
-  const buildPath = path.join(__dirname, "client", "build");
+  // IMPORTANT: go one level up from /src
+  const buildPath = path.join(__dirname, "..", "client", "build");
+
   app.use(express.static(buildPath));
 
-  // Ye Regex pattern (index 1 par) sabhi paths ko match karega bina crash huye
-  app.get(/^(?!\/api).+/, (req, res) => {
+  // Handle React routing (exclude /api)
+  app.get("*", (req, res) => {
     res.sendFile(path.join(buildPath, "index.html"));
   });
 }
+
 // Port
 const PORT = process.env.PORT || 5000;
 
