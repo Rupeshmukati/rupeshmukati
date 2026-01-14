@@ -21,17 +21,12 @@ app.get("/api", (req, res) => {
 
 // Production: Serve React build
 if (process.env.NODE_ENV === "production") {
-  // Static files serve karne ke liye
   const buildPath = path.join(__dirname, "client", "build");
   app.use(express.static(buildPath));
 
-  // ✅ EXPRESS 5 FIX: Wildcard '*' ki jagah (.*) use karein
-  app.get("(.*)", (req, res) => {
-    res.sendFile(path.join(buildPath, "index.html"), (err) => {
-      if (err) {
-        res.status(500).send("Build directory issue: index.html not found.");
-      }
-    });
+  // Ye Regex pattern (index 1 par) sabhi paths ko match karega bina crash huye
+  app.get(/^(?!\/api).+/, (req, res) => {
+    res.sendFile(path.join(buildPath, "index.html"));
   });
 }
 // Port
