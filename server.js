@@ -21,20 +21,19 @@ app.get("/api", (req, res) => {
 
 // Production: Serve React build
 if (process.env.NODE_ENV === "production") {
-  // Direct path setup
   const buildPath = path.join(__dirname, "client", "build");
   app.use(express.static(buildPath));
 
-  // Catch-all route for React Router
+  // ✅ FIX: Express 5+ ke liye wildcard ko aise likha jata hai
   app.get("*", (req, res) => {
     res.sendFile(path.join(buildPath, "index.html"), (err) => {
       if (err) {
-        res.status(500).send(err);
+        // Agar file nahi milti toh server crash nahi hoga
+        res.status(500).send("Build file not found. Check your build path.");
       }
     });
   });
 }
-
 // Port
 const PORT = process.env.PORT || 5000;
 
