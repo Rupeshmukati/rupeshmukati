@@ -21,13 +21,17 @@ app.get("/api", (req, res) => {
 
 // Production: Serve React build
 if (process.env.NODE_ENV === "production") {
-  // Static files ke liye sahi path setup
-  const buildPath = path.resolve(__dirname, "client", "build");
+  // Direct path setup
+  const buildPath = path.join(__dirname, "client", "build");
   app.use(express.static(buildPath));
 
-  // Sari requests ko index.html par redirect karein
+  // Catch-all route for React Router
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(buildPath, "index.html"));
+    res.sendFile(path.join(buildPath, "index.html"), (err) => {
+      if (err) {
+        res.status(500).send(err);
+      }
+    });
   });
 }
 
