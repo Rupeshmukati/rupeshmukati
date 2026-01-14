@@ -14,20 +14,16 @@ app.use(express.json());
 const portfolioRoute = require("./routes/portfolioRoute");
 app.use("/api/portfolio", portfolioRoute);
 
-// ================= React Frontend Connection (Zaroori) =================
+
+// Production: Serve React build
 if (process.env.NODE_ENV === "production") {
-  // 1. Static folder ka path setup
   const buildPath = path.join(__dirname, "client", "build");
   app.use(express.static(buildPath));
 
-  // 2. Sari requests ko index.html par bhejein (Named parameter fix)
-  app.get("/:path*", (req, res) => {
+  // ✅ SAFEST FIX: Wildcard string ki jagah direct Regex use karein
+  // Ye pattern har us path ko match karega jo /api se shuru nahi hota
+  app.get(/^\/(?!api).*/, (req, res) => {
     res.sendFile(path.join(buildPath, "index.html"));
-  });
-} else {
-  // Local development ke liye
-  app.get("/", (req, res) => {
-    res.send("Backend API running 🚀");
   });
 }
 
