@@ -1,17 +1,14 @@
 {
   "name": "mern-portfolio",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js", 
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "build": "npm install && npm install --prefix client && npm run build --prefix client"
   },
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
-    "mongoose": "^9.0.2",
-    "nodemon": "^3.1.11"
+    "mongoose": "^9.0.2"
   }
 }
