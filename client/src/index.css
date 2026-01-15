@@ -1,0 +1,191 @@
+/* ===============================
+   FONT FAMILY
+================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+* {
+  font-family: "Montserrat", sans-serif;
+}
+
+/* ===============================
+   GLOBAL VARIABLES
+================================ */
+
+:root {
+  --primary: #0A192F;
+  --secondary: #F97316;
+  --tertiary: #54D6BB;
+  --white: #ffffff;
+  --black: #000000;
+  --gray: #9ca3af;
+}
+
+
+/* ===============================
+   COLORS
+================================ */
+
+.text-primary {
+  color: var(--primary);
+}
+
+.text-secondary {
+  color: var(--secondary);
+}
+
+.text-tertiary {
+  color: var(--tertiary);
+}
+
+.text-white {
+  color: var(--white);
+}
+
+.text-gray {
+  color: var(--gray);
+}
+
+.bg-primary {
+  background: var(--primary);
+}
+
+.bg-secondary {
+  background: var(--secondary);
+}
+
+.bg-tertiary {
+  background: var(--tertiary);
+}
+
+.bg-white {
+  background: var(--white);
+}
+
+.footer_section {
+    background: var(--primary);
+}
+
+
+/* ===============================
+   BUTTON
+================================ */
+
+.btn-primary {
+  background: var(--secondary);
+  color: var(--white);
+}
+
+/* border */
+
+.border-tertiary {
+  border-color: var(--tertiary);
+}
+
+
+i {
+  cursor: pointer;
+}
+
+
+i:hover {
+  color: #fff;
+}
+
+
+/* loader animation */
+
+.r {
+  animation: r 1s infinite;
+}
+
+@keyframes r {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 0.5;
+  }
+}
+
+
+.k {
+  animation: k 1s infinite;
+}
+
+@keyframes k {
+  0% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.5;
+  }
+}
+
+.m {
+  animation: m 1s infinite;
+}
+
+@keyframes m {
+  0% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+
+/* input style */
+
+
+input {
+  height: 40px;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #000000ae !important;
+}
+
+.ant-form-item-explain-error {
+    margin-bottom: 10px;
+}
+
+:where(.css-dev-only-do-not-override-xbngoj).ant-form-item {
+    margin-bottom: 15px;
+}
+
+
+:where(.css-dev-only-do-not-override-xbngoj).ant-form-item-vertical .ant-form-item-label {
+ padding-bottom: 5px;
+}
+
+
+:where(.css-dev-only-do-not-override-xbngoj).ant-tabs-top >.ant-tabs-nav::before, :where(.css-dev-only-do-not-override-xbngoj).ant-tabs-bottom >.ant-tabs-nav::before, :where(.css-dev-only-do-not-override-xbngoj).ant-tabs-top >div>.ant-tabs-nav::before, :where(.css-dev-only-do-not-override-xbngoj).ant-tabs-bottom >div>.ant-tabs-nav::before {
+        border-color: #0a192f2d;
+}
+
+:where(.css-dev-only-do-not-override-xbngoj).ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+    font-weight:600;
+}
+
+:where(.css-dev-only-do-not-override-xbngoj).ant-tabs .ant-tabs-tab .ant-tabs-tab-btn {
+    font-weight:500;
+}

@@ -1,0 +1,72 @@
+import React from "react";
+import SectionTitle from "../../components/SectionTitle";
+import { useSelector } from "react-redux";
+
+function Courses() {
+  const [selectedItemIndex, setSelectedItemIndex] = React.useState(0);
+  const { portfolioData } = useSelector((state) => state.root);
+  const { course } = portfolioData;
+
+  return (
+    <div className="course_section">
+      <SectionTitle title="My Courses" />
+      <div className="flex flex-col md:flex-row sm:pb-10 gap-6 md:gap-10">
+        {/* Left Side – Period List */}
+        <div className="flex md:flex-col gap-4 md:gap-8 w-full sm:w-1/4 sm:border-l sm:border-[#135e4c82] flex-wrap">
+          {course.map((course, index) => (
+            <div
+              key={index}
+              onClick={() => setSelectedItemIndex(index)}
+              className="cursor-pointer"
+            >
+              <h1
+                className={`text-lg sm:text-xl px-4 py-2 sm:py-3 transition mb-0
+                    ${
+                      selectedItemIndex === index
+                        ? "text-tertiary border-l-4 border-tertiary bg-[#1a7f5a5f] sm:-ml-[2px] -ml-[0px]"
+                        : "text-white sm:border-0 border-l-4 border-white sm:bg-[transparent] bg-[#000]"
+                    }`}
+              >
+                {course.title}
+              </h1>
+            </div>
+          ))}
+        </div>
+
+        {/* Right Side – Details */}
+        <div className="flex flex-col md:flex-row sm:pb-10 sm:pt-0 pt-0 pb-10 gap-3 sm:gap-10 sm:items-center justify-center">
+          {course[selectedItemIndex].link ? (
+            <a
+              href={course[selectedItemIndex].link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src={course[selectedItemIndex].image}
+                alt={course[selectedItemIndex].title}
+                className="sm:max-w-[300px] rounded"
+              />
+            </a>
+          ) : (
+            <img
+              src={course[selectedItemIndex].image}
+              alt={course[selectedItemIndex].title}
+              className="max-w-[300px] rounded"
+            />
+          )}
+
+          <div className="flex flex-col gap-1 md:gap-2 w-full mt-4 md:mt-0 sm:w-2/2 px-2 sm:px-0">
+            <h1 className="text-xl sm:text-2xl text-secondary font-semibold mb-0">
+              {course[selectedItemIndex].title}
+            </h1>
+            <p className="max-w-[600px] text-white text-sm sm:text-base leading-relaxed mt-2 mb-0">
+              {course[selectedItemIndex].description}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Courses;
