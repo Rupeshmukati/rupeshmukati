@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-const path = require("path"); 
+const path = require("path");
 
 const app = express();
 
@@ -14,7 +14,6 @@ app.use(express.json());
 const portfolioRoute = require("./routes/portfolioRoute");
 app.use("/api/portfolio", portfolioRoute);
 
-
 // Production: Serve React build
 if (process.env.NODE_ENV === "production") {
   const buildPath = path.join(__dirname, "client", "build");
@@ -22,7 +21,7 @@ if (process.env.NODE_ENV === "production") {
 
   // ✅ SAFEST FIX: Wildcard string ki jagah direct Regex use karein
   app.get(/^\/(?!api).*/, (req, res) => {
-    res.sendFile(path.join(buildPath, "index.html"));
+    res.sendFile(path.resolve(buildPath, "index.html"));
   });
 }
 
