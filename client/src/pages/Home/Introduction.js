@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import BgAnimation from "../../components/BgAnimation";
+// import BgAnimation from "../../components/BgAnimation";
 
 function Introduction() {
   const { portfolioData } = useSelector((state) => state.root);
@@ -35,15 +35,15 @@ function Introduction() {
         <div className="relative flex justify-center order-1 md:order-2">
           <div className="relative z-10">
             {/* 🔹 Background Animation */}
-            <div className="inset-0 z-0">
+            {/* <div className="inset-0 z-0">
               <BgAnimation />
-            </div>
+            </div> */}
 
             <img
               // Agar intro.image hai to uploads folder se uthao, nahi to default file
               src={
                 image
-                  ? `http://localhost:5000/uploads/${image}`
+                  ? `https://rupesh-portfolio-q95u.onrender.com/${image}`
                   : "/rupesh-profile.png"
               }
               alt="Profile"
