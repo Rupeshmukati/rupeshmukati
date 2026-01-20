@@ -9,6 +9,7 @@
   font-family: "Montserrat", sans-serif;
 }
 
+
 /* ===============================
    GLOBAL VARIABLES
 ================================ */
@@ -189,3 +190,10 @@ textarea::placeholder {
 :where(.css-dev-only-do-not-override-xbngoj).ant-tabs .ant-tabs-tab .ant-tabs-tab-btn {
     font-weight:500;
 }
+
+
+/* .BgAnimation__svg {
+  width: 100%;
+  height: 100%;
+  opacity: 0.15;
+} */

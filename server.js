@@ -12,6 +12,7 @@ require("./config/dbConfig");
 
 // Middleware
 app.use(express.json());
+app.use("/uploads", express.static("uploads"));
 
 // API routes
 app.use("/api/portfolio", require("./routes/portfolioRoute"));

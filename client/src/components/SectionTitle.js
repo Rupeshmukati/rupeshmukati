@@ -2,7 +2,7 @@
 function SectionTitle({ title }) {
   return (
     <div className="flex sm:flex-row items-center gap-4 sm:gap-10 py-6 sm:pt-10 sm:pb-10">
-      <h1 className="text-2xl sm:text-3xl text-secondary text-center sm:text-left font-semibold mb-0">
+      <h1 className="text-2xl sm:text-3xl text-secondary sm:text-left font-semibold mb-0">
         {title}
       </h1>
 

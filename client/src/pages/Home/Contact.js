@@ -6,18 +6,18 @@ function Contact() {
   const { contact } = portfolioData;
 
   return (
-    <div className="contact_section">
+    <div className="contact_section" id="contact">
       <SectionTitle title="Say Hello" />
 
       <div className="flex flex-col md:flex-row sm:pb-10 pt-0 pb-10 gap-3 sm:gap-10 items-center justify-center">
         {/* LEFT SIDE – USER DETAILS */}
-        <div className="flex flex-col gap-1 sm:gap-4 w-full mt-4 md:mt-0 sm:w-2/2 px-10 sm:px-0 items-start">
+        <div className="flex flex-col gap-3 sm:gap-4 w-full mt-4 md:mt-0 sm:w-2/2 px-5 sm:px-0 items-start">
           <p className="text-tertiary mb-0">{"{"}</p>
           {Object.keys(contact).map(
             (key) =>
               key !== "_id" && (
                 <p className="ml-5 text-tertiary mb-0">
-                  <span className="capitalize">{key} : </span>
+                  <span className="capitalize break-all">{key} : </span>
                   <span>{contact[key]}</span>
                 </p>
               )

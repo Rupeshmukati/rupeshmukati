@@ -7,7 +7,7 @@ function About() {
   const { skills, lottieURL, description1, description2 } = about;
 
   return (
-    <div className="about_section">
+    <div className="about_section" id="about">
       <SectionTitle title="About Me" />
 
       <div className="flex flex-col md:flex-row w-full items-center gap-12">

@@ -7,7 +7,7 @@ function Project() {
   const { portfolioData } = useSelector((state) => state.root);
   const { project } = portfolioData;
   return (
-    <div className="project_section">
+    <div className="project_section" id="projects">
       <SectionTitle title="My Projects" />
       <div className="flex flex-col md:flex-row sm:pb-10 gap-6 md:gap-10">
         {/* Left Side – Period List */}

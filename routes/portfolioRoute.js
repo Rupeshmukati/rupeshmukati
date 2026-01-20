@@ -6,8 +6,10 @@ const {
   Contact,
   Experience,
   Course,
+  Socialurl,
 } = require("../models/portfolioModel");
 const User = require("../models/userModel");
+const upload = require("../middlewares/upload"); // Aapka middleware
 
 //* get all portfolio data
 router.get("/get-portfolio-data", async (req, res) => {
@@ -18,6 +20,7 @@ router.get("/get-portfolio-data", async (req, res) => {
     const contacts = await Contact.find();
     const experiences = await Experience.find();
     const courses = await Course.find();
+    const socialurls = await Socialurl.find();
 
     res.status(200).send({
       intro: intros[0],
@@ -26,6 +29,7 @@ router.get("/get-portfolio-data", async (req, res) => {
       contact: contacts[0],
       experience: experiences,
       course: courses,
+      socialurl: socialurls[0],
     });
   } catch (error) {
     res.status(500).send(error);
@@ -33,20 +37,31 @@ router.get("/get-portfolio-data", async (req, res) => {
 });
 
 //* Update Introduction
-router.post("/update-intro", async (req, res) => {
+router.post("/update-intro", upload.single("image"), async (req, res) => {
   try {
+    const updateData = { ...req.body };
+
+    if (req.file) {
+      // Agar user ne nayi image upload ki hai
+      updateData.image = req.file.filename;
+    } else if (req.body.image === "null" || !req.body.image) {
+      // Agar user ne admin se image delete kar di hai
+      updateData.image = "";
+    }
+
     const intro = await Intro.findOneAndUpdate(
       { _id: req.body._id },
-      req.body,
-      { new: true }
+      updateData,
+      { new: true },
     );
+
     res.status(200).send({
       data: intro,
       success: true,
-      message: "Introduction Updated Successfully",
+      message: "Introduction updated successfully",
     });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send({ success: false, message: error.message });
   }
 });
 
@@ -56,12 +71,30 @@ router.post("/update-contact", async (req, res) => {
     const contact = await Contact.findOneAndUpdate(
       { _id: req.body._id },
       req.body,
-      { new: true }
+      { new: true },
     );
     res.status(200).send({
       data: contact,
       success: true,
       message: "Contact Updated Successfully",
+    });
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+//* Update Social URLs
+router.post("/update-socialurl", async (req, res) => {
+  try {
+    const socialurl = await Socialurl.findOneAndUpdate(
+      { _id: req.body._id },
+      req.body,
+      { new: true },
+    );
+    res.status(200).send({
+      data: socialurl,
+      success: true,
+      message: "Social URLs Updated Successfully",
     });
   } catch (error) {
     res.status(500).send(error);
@@ -74,7 +107,7 @@ router.post("/update-about", async (req, res) => {
     const about = await About.findOneAndUpdate(
       { _id: req.body._id },
       req.body,
-      { new: true }
+      { new: true },
     );
     res.status(200).send({
       data: about,
@@ -107,7 +140,7 @@ router.post("/update-experience", async (req, res) => {
     const experience = await Experience.findOneAndUpdate(
       { _id: req.body._id },
       req.body,
-      { new: true }
+      { new: true },
     );
     res.status(200).send({
       data: experience,
@@ -154,7 +187,7 @@ router.post("/update-project", async (req, res) => {
     const project = await Project.findOneAndUpdate(
       { _id: req.body._id },
       req.body,
-      { new: true }
+      { new: true },
     );
     res.status(200).send({
       data: project,
@@ -201,7 +234,7 @@ router.post("/update-course", async (req, res) => {
     const course = await Course.findOneAndUpdate(
       { _id: req.body._id },
       req.body,
-      { new: true }
+      { new: true },
     );
     res.status(200).send({
       data: course,

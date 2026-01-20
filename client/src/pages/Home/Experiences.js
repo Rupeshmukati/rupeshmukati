@@ -9,7 +9,7 @@ function Experiences() {
   const { experience } = portfolioData;
 
   return (
-    <div className="experience_section">
+    <div className="experience_section" id="experience">
       <SectionTitle title="Experience" />
 
       <div className="flex flex-col md:flex-row sm:pb-10 pb-10 gap-6 md:gap-10">

@@ -1,125 +1,67 @@
 const mongoose = require("mongoose");
 
 const introSchema = new mongoose.Schema({
-  welcomeText: {
-    type: String,
-    required: true,
-  },
-  firstName: {
-    type: String,
-    required: true,
-  },
-  lastName: {
-    type: String,
-    required: true,
-  },
-  caption: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
+  welcomeText: { type: String, required: true },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  caption: { type: String, required: true },
+  description: { type: String, required: true },
+  image: { type: String, required: false }, // <-- Yeh field add karein
 });
 
 const aboutSchema = new mongoose.Schema({
-  lottieURL: {
-    type: String,
-    required: true,
-  },
-  description1: {
-    type: String,
-    required: true,
-  },
-  description2: {
-    type: String,
-    required: true,
-  },
-  skills: {
-    type: [String],
-    required: true,
-  },
+  lottieURL: { type: String, required: true, trim: true },
+  description1: { type: String, required: true, trim: true },
+  description2: { type: String, required: true, trim: true },
+  skills: { type: [String], required: true },
 });
 
 const experienceSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  period: {
-    type: String,
-    required: true,
-  },
-  company: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
+  title: { type: String, required: true, trim: true },
+  period: { type: String, required: true, trim: true },
+  company: { type: String, required: true, trim: true },
+  description: { type: String, required: true, trim: true },
 });
 
 const projectsSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-    required: true,
-  },
-  link: {
-    type: String,
-    required: true,
-  },
-  technologies: {
-    type: [String],
-    required: true,
-  },
+  title: { type: String, required: true, trim: true },
+  description: { type: String, required: true, trim: true },
+  image: { type: String, required: true, trim: true },
+  link: { type: String, required: true, trim: true },
+  technologies: { type: [String], required: true },
 });
 
 const coursesSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-    required: true,
-  },
-  link: {
-    type: String,
-    required: true,
-  },
+  title: { type: String, required: true, trim: true },
+  description: { type: String, required: true, trim: true },
+  image: { type: String, required: true, trim: true },
+  link: { type: String, required: true, trim: true },
 });
 
 const contactSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
+  name: { type: String, required: true, trim: true },
   email: {
     type: String,
     required: true,
+    trim: true,
+    lowercase: true,
+    match: [/^\S+@\S+\.\S+$/, "Invalid email"],
   },
-  mobile: {
+  mobile: { type: String, required: true, trim: true },
+  country: { type: String, required: true, trim: true },
+});
+
+const socialurlSchema = new mongoose.Schema({
+  facebook: { type: String, required: true, trim: true },
+  emailid: {
     type: String,
     required: true,
+    trim: true,
+    lowercase: true,
+    match: [/^\S+@\S+\.\S+$/, "Invalid email"],
   },
-  country: {
-    type: String,
-    required: true,
-  },
+  linkedin: { type: String, required: true, trim: true },
+  instagram: { type: String, required: true, trim: true },
 });
 
 module.exports = {
@@ -129,4 +71,5 @@ module.exports = {
   Project: mongoose.model("projects", projectsSchema),
   Course: mongoose.model("courses", coursesSchema),
   Contact: mongoose.model("contacts", contactSchema),
+  Socialurl: mongoose.model("socialurls", socialurlSchema),
 };

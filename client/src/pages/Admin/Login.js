@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Form, Input, Button, message } from "antd";
 import { useDispatch } from "react-redux";
 import { ShowLoading, HideLoading } from "../../redux/rootSlice";
@@ -7,16 +7,30 @@ import axios from "axios";
 function Login() {
   const dispatch = useDispatch();
 
+  // 🔐 BLOCK admin-login if already logged in
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      window.location.replace("/admin"); // ⬅️ IMPORTANT
+    }
+  }, []);
+
   const login = async (values) => {
     try {
       dispatch(ShowLoading());
-      const response = await axios.post("/api/portfolio/admin-login", values);
+      const response = await axios.post(
+        "/api/portfolio/admin-login",
+        values
+      );
       dispatch(HideLoading());
 
       if (response.data.success) {
         message.success(response.data.message);
+
+        // ✅ Token save
         localStorage.setItem("token", JSON.stringify(response.data));
-        window.location.href = "/admin";
+
+        // ✅ Redirect without history
+        window.location.replace("/admin");
       } else {
         message.error(response.data.message);
       }

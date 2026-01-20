@@ -8,11 +8,11 @@ function Courses() {
   const { course } = portfolioData;
 
   return (
-    <div className="course_section">
+    <div className="course_section" id="courses">
       <SectionTitle title="My Courses" />
       <div className="flex flex-col md:flex-row sm:pb-10 gap-6 md:gap-10">
         {/* Left Side – Period List */}
-        <div className="flex md:flex-col gap-4 md:gap-8 w-full sm:w-1/4 sm:border-l sm:border-[#135e4c82] flex-wrap">
+        <div className="flex md:flex-col gap-4 md:gap-8 w-full md:w-1/4 sm:border-l sm:border-[#135e4c82] flex-wrap">
           {course.map((course, index) => (
             <div
               key={index}
@@ -20,7 +20,7 @@ function Courses() {
               className="cursor-pointer"
             >
               <h1
-                className={`text-lg sm:text-xl px-4 py-2 sm:py-3 transition mb-0
+                className={`text-lg sm:text-xl px-4 py-2 sm:py-3 transition
                     ${
                       selectedItemIndex === index
                         ? "text-tertiary border-l-4 border-tertiary bg-[#1a7f5a5f] sm:-ml-[2px] -ml-[0px]"
@@ -34,7 +34,7 @@ function Courses() {
         </div>
 
         {/* Right Side – Details */}
-        <div className="flex flex-col md:flex-row sm:pb-10 sm:pt-0 pt-0 pb-10 gap-3 sm:gap-10 sm:items-center justify-center">
+        <div className="flex flex-col md:flex-row sm:pb-10 sm:pt-0 pt-0 pb-10 gap-3 md:gap-10 md:items-center justify-center">
           {course[selectedItemIndex].link ? (
             <a
               href={course[selectedItemIndex].link}
