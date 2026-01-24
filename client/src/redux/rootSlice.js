@@ -24,10 +24,19 @@ const rootSlice = createSlice({
     ReloadData: (state, action) => {
       state.reloadData = action.payload;
     },
+
+    // ✅ ONLY ADDITION (IMPORTANT)
+    removeEnquiry: (state, action) => {
+      if (state.portfolioData?.enquiry) {
+        state.portfolioData.enquiry = state.portfolioData.enquiry.filter(
+          (item) => item._id !== action.payload,
+        );
+      }
+    },
   },
 });
 
 export default rootSlice.reducer;
 
-export const { ShowLoading, HideLoading, setPortfolioData, ReloadData } =
-  rootSlice.actions;
+// 👇 bas yaha add hua
+export const {  ShowLoading,  HideLoading,  setPortfolioData,  ReloadData,  removeEnquiry} = rootSlice.actions;

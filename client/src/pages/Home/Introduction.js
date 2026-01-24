@@ -8,8 +8,7 @@ function Introduction() {
   const dispatch = useDispatch();
   const { portfolioData } = useSelector((state) => state.root);
   const { intro } = portfolioData;
-  const { firstName, lastName, welcomeText, description, caption, image } =
-    intro;
+  const { firstName, lastName, welcomeText, description, caption, image } = intro;
   const [open, setOpen] = useState(false);
 
   // Enquiry submit karne ka naya function
