@@ -3,17 +3,27 @@ const router = require("express").Router();
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false, // TLS
   auth: {
     user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
+    pass: process.env.EMAIL_PASS, // Gmail App Password
   },
-  secure: false, // 👈 ADD THIS
   tls: {
-    // Yeh line Render ke liye compulsory hai
     rejectUnauthorized: false,
   },
 });
+
+// SMTP verify (log me clear dikhega)
+transporter.verify((error, success) => {
+  if (error) {
+    console.log("❌ SMTP VERIFY ERROR:", error.message);
+  } else {
+    console.log("✅ SMTP SERVER READY");
+  }
+});
+
 
 const {
   Intro,
