@@ -122,11 +122,11 @@ function AdminCourses() {
             </div>
 
             {/* Content */}
-            <p className="text-primary font-semibold pt-4 mt-3">{course.title}</p>
+            <p className="text-primary font-semibold pt-4">{course.title}</p>
             <img
               src={course.image}
               alt={course.title}
-              className="w-full rounded"
+              className="w-full rounded mt-3"
             />
             <p className="text-black text-sm leading-relaxed mt-3 mb-0">
               {course.description}
