@@ -10,6 +10,9 @@
   line-height: normal;
 }
 
+p {
+    margin-bottom: 1em;
+}
 
 /* ===============================
    GLOBAL VARIABLES
