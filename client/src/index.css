@@ -190,11 +190,13 @@ textarea::placeholder {
   border-color: #0a192f2d;
 }
 
-:where(.css-dev-only-do-not-override-xbngoj).ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+:where(.css-dev-only-do-not-override-xbngoj).ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn,
+:where(.css-xbngoj).ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
   font-weight: 600;
 }
 
-:where(.css-dev-only-do-not-override-xbngoj).ant-tabs .ant-tabs-tab .ant-tabs-tab-btn {
+:where(.css-dev-only-do-not-override-xbngoj).ant-tabs .ant-tabs-tab .ant-tabs-tab-btn,
+:where(.css-xbngoj).ant-tabs .ant-tabs-tab-btn {
   font-weight: 500;
 }
 
