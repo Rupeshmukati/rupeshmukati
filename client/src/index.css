@@ -10,6 +10,7 @@
   line-height: normal;
 }
 
+
 /* ===============================
    GLOBAL VARIABLES
 ================================ */
@@ -202,7 +203,7 @@ div[role="tabpanel"] .p-5 {
 }
 
 .ant-form-item-explain-error {
-  display: none;
+    display: none;
 }
 
 @media (max-width: 768px) {

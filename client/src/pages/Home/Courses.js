@@ -2,14 +2,28 @@ import React, { useState } from "react";
 import SectionTitle from "../../components/SectionTitle";
 import { useSelector } from "react-redux";
 
+const BASE_URL = "/uploads/courses/";
+
 function Courses() {
   const [selectedItemIndex, setSelectedItemIndex] = useState(0);
   const { portfolioData } = useSelector((state) => state.root);
   const { course = [] } = portfolioData || {};
 
-  if (!course.length) return null; // Prevent rendering if no courses
+  if (!course.length) return null;
 
   const selectedCourse = course[selectedItemIndex];
+
+  const imageSrc = selectedCourse.image
+    ? BASE_URL + selectedCourse.image
+    : "https://placehold.co/600x400?text=No+Image";
+
+  const CourseImage = (
+    <img
+      src={imageSrc}
+      alt={selectedCourse.title}
+      className="max-w-[300px] w-full object-cover rounded"
+    />
+  );
 
   return (
     <section
@@ -45,27 +59,19 @@ function Courses() {
         {/* Right Side – Course Details */}
         <div className="flex flex-col md:flex-row sm:pb-10 sm:pt-0 pt-0 pb-10 gap-3 md:gap-10 md:items-center justify-center w-full md:w-3/4">
           {/* Course Image */}
-          {selectedCourse.image &&
-            (selectedCourse.link ? (
-              <a
-                href={selectedCourse.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`Visit course: ${selectedCourse.title}`}
-              >
-                <img
-                  src={selectedCourse.image}
-                  alt={selectedCourse.title}
-                  className="sm:max-w-[300px] rounded"
-                />
-              </a>
-            ) : (
-              <img
-                src={selectedCourse.image}
-                alt={selectedCourse.title}
-                className="sm:max-w-[300px] rounded"
-              />
-            ))}
+          {selectedCourse.link ? (
+            <a
+              className="contents"
+              href={selectedCourse.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Visit course: ${selectedCourse.title}`}
+            >
+              {CourseImage}
+            </a>
+          ) : (
+            CourseImage
+          )}
 
           {/* Course Text Content */}
           <div className="flex flex-col gap-1 md:gap-2 w-full mt-4 md:mt-0 sm:w-2/2 px-2 sm:px-0">

@@ -1,27 +1,47 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Form, Input, Button, Modal, message, Popconfirm } from "antd";
+import { Form, Input, Button, Modal, message, Popconfirm, Upload } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 import { HideLoading, ReloadData, ShowLoading } from "../../redux/rootSlice";
 import axios from "axios";
+
+const BASE_URL = "/uploads/projects/";
 
 function AdminProjects() {
   const dispatch = useDispatch();
   const { portfolioData } = useSelector((state) => state.root);
-  const { project } = portfolioData;
+  const { project = [] } = portfolioData;
 
   const [showAddEditModal, setShowAddEditModal] = useState(false);
   const [selectedItemForEdit, setSelectedItemForEdit] = useState(null);
+  const [fileList, setFileList] = useState([]);
   const [form] = Form.useForm();
 
-  // ✅ Populate form on Edit
+  // ✅ Populate form + image on Edit
   useEffect(() => {
     if (selectedItemForEdit) {
       form.setFieldsValue({
-        ...selectedItemForEdit,
-        technologies: selectedItemForEdit?.technologies?.join(", "),
+        title: selectedItemForEdit.title,
+        description: selectedItemForEdit.description,
+        link: selectedItemForEdit.link,
+        technologies: selectedItemForEdit.technologies?.join(", "),
       });
+
+      setFileList(
+        selectedItemForEdit.image
+          ? [
+              {
+                uid: "-1",
+                name: selectedItemForEdit.image,
+                status: "done",
+                url: BASE_URL + selectedItemForEdit.image,
+              },
+            ]
+          : [],
+      );
     } else {
       form.resetFields();
+      setFileList([]);
     }
   }, [selectedItemForEdit, form]);
 
@@ -29,16 +49,30 @@ function AdminProjects() {
     try {
       dispatch(ShowLoading());
 
-      values.technologies = values.technologies
-        ? values.technologies.split(",").map((t) => t.trim())
-        : [];
+      const formData = new FormData();
+      formData.append("title", values.title);
+      formData.append("description", values.description);
+      formData.append("link", values.link || "");
+      formData.append(
+        "technologies",
+        JSON.stringify(
+          values.technologies
+            ? values.technologies.split(",").map((t) => t.trim())
+            : [],
+        ),
+      );
+
+      if (fileList[0]?.originFileObj) {
+        formData.append("image", fileList[0].originFileObj);
+      }
+
+      if (selectedItemForEdit) {
+        formData.append("_id", selectedItemForEdit._id);
+      }
 
       const response = selectedItemForEdit
-        ? await axios.post("/api/portfolio/update-project", {
-            ...values,
-            _id: selectedItemForEdit._id,
-          })
-        : await axios.post("/api/portfolio/add-project", values);
+        ? await axios.post("/api/portfolio/update-project", formData)
+        : await axios.post("/api/portfolio/add-project", formData);
 
       dispatch(HideLoading());
 
@@ -52,7 +86,7 @@ function AdminProjects() {
       }
     } catch (error) {
       dispatch(HideLoading());
-      message.error(error.response?.data?.message || "Something went wrong");
+      message.error("Something went wrong");
     }
   };
 
@@ -68,11 +102,10 @@ function AdminProjects() {
 
       if (response.data.success) {
         message.success(response.data.message);
+
         dispatch(ReloadData(true));
-      } else {
-        message.error(response.data.message);
       }
-    } catch (error) {
+    } catch {
       dispatch(HideLoading());
       message.error("Something went wrong");
     }
@@ -127,11 +160,15 @@ function AdminProjects() {
 
             <p className="font-semibold mb-3 pt-4">{item.title}</p>
             <img
-              src={item.image}
+              src={
+                item.image
+                  ? BASE_URL + item.image
+                  : "https://placehold.co/600x400?text=No+Image"
+              }
               alt={item.title}
-              className="w-full h-[200px] rounded"
+              className="w-full rounded"
             />
-            <p className="text-sm mt-4">{item.description}</p>
+            <p className="text-sm mt-3">{item.description}</p>
           </div>
         ))}
       </div>
@@ -147,15 +184,32 @@ function AdminProjects() {
         }}
       >
         <Form layout="vertical" form={form} onFinish={onFinish}>
-          <Form.Item name="title" label="Title" rules={[{ required: true }]}>
-            <Input />
+          <Form.Item
+            name="title"
+            label="Project Title"
+            rules={[{ required: true }]}
+          >
+            <Input placeholder="Project Title" />
           </Form.Item>
 
-          <Form.Item name="image" label="Image URL" rules={[{ required: true }]}>
-            <Input />
+          {/* ✅ Upload Image */}
+          <Form.Item label="Project Image">
+            <Upload
+              listType="picture"
+              maxCount={1}
+              beforeUpload={() => false}
+              fileList={fileList}
+              onChange={({ fileList }) => setFileList(fileList)}
+            >
+              <Button icon={<UploadOutlined />}>Upload Image</Button>
+            </Upload>
           </Form.Item>
 
-          <Form.Item name="description" label="Description" rules={[{ required: true }]}>
+          <Form.Item
+            name="description"
+            label="Description"
+            rules={[{ required: true }]}
+          >
             <Input.TextArea rows={3} />
           </Form.Item>
 

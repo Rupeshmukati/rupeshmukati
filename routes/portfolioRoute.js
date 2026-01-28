@@ -187,35 +187,65 @@ router.post("/delete-experience", async (req, res) => {
 });
 
 //* ADD Project
-router.post("/add-project", async (req, res) => {
+router.post("/add-project", upload.single("image"), async (req, res) => {
   try {
-    const project = new Project(req.body);
+    const { title, description, link, technologies } = req.body;
+
+    const project = new Project({
+      title,
+      description,
+      link,
+      technologies: technologies ? JSON.parse(technologies) : [],
+      image: req.file ? req.file.filename : "",
+    });
+
     await project.save();
+
     res.status(200).send({
       data: project,
       success: true,
-      message: "Project Added Successfully",
+      message: "Project added successfully",
     });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send({
+      success: false,
+      message: error.message,
+    });
   }
 });
 
-//* Update Project
-router.post("/update-project", async (req, res) => {
+//* UPDATE Project
+router.post("/update-project", upload.single("image"), async (req, res) => {
   try {
-    const project = await Project.findOneAndUpdate(
-      { _id: req.body._id },
-      req.body,
-      { new: true },
-    );
+    const { title, description, link, technologies, _id } = req.body;
+
+    const updateData = {
+      title,
+      description,
+      link,
+      technologies: technologies ? JSON.parse(technologies) : [],
+      image: "", // ✅ Default empty string
+    };
+
+    // ✅ Agar nayi image upload hui
+    if (req.file) {
+      updateData.image = req.file.filename;
+    }
+
+    const project = await Project.findOneAndUpdate({ _id }, updateData, {
+      new: true,
+    });
+
     res.status(200).send({
       data: project,
       success: true,
-      message: "Project Updated Successfully",
+      message: "Project updated successfully",
     });
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send({
+      success: false,
+      message: error.message,
+    });
   }
 });
 
@@ -234,9 +264,17 @@ router.post("/delete-project", async (req, res) => {
 });
 
 //* ADD Course
-router.post("/add-course", async (req, res) => {
+router.post("/add-course", upload.single("image"), async (req, res) => {
   try {
-    const course = new Course(req.body);
+    const { title, description, link } = req.body;
+
+    const course = new Course({
+      title,
+      description,
+      link,
+      image: req.file ? req.file.filename : "",
+    });
+
     await course.save();
     res.status(200).send({
       data: course,
@@ -249,13 +287,26 @@ router.post("/add-course", async (req, res) => {
 });
 
 //* Update Course
-router.post("/update-course", async (req, res) => {
+router.post("/update-course", upload.single("image"), async (req, res) => {
   try {
-    const course = await Course.findOneAndUpdate(
-      { _id: req.body._id },
-      req.body,
-      { new: true },
-    );
+    const { title, description, link, _id } = req.body;
+
+    const updateData = {
+      title,
+      description,
+      link,
+      image: "", // ✅ Default empty string
+    };
+
+    // ✅ Agar nayi image upload hui
+    if (req.file) {
+      updateData.image = req.file.filename;
+    }
+
+    const course = await Course.findOneAndUpdate({ _id }, updateData, {
+      new: true,
+    });
+
     res.status(200).send({
       data: course,
       success: true,
@@ -389,7 +440,5 @@ router.post("/delete-enquiry", async (req, res) => {
     res.status(500).send({ success: false, message: error.message });
   }
 });
-
-
 
 module.exports = router;

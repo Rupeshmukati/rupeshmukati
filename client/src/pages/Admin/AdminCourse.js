@@ -1,45 +1,82 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Form, Input, Button, Modal, message, Popconfirm } from "antd";
+import { Form, Input, Button, Modal, message, Popconfirm, Upload } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 import { HideLoading, ReloadData, ShowLoading } from "../../redux/rootSlice";
 import axios from "axios";
+
+const BASE_URL = "/uploads/courses/";
 
 function AdminCourses() {
   const dispatch = useDispatch();
   const { portfolioData } = useSelector((state) => state.root);
-  const { course } = portfolioData;
+  const { course = [] } = portfolioData;
 
   const [showAddEditModal, setShowAddEditModal] = React.useState(false);
   const [selectedItemForEdit, setSelectedItemForEdit] = React.useState(null);
-
+  const [fileList, setFileList] = useState([]);
   const [form] = Form.useForm();
+
+  // ✅ Populate form + image on Edit
+  useEffect(() => {
+    if (selectedItemForEdit) {
+      form.setFieldsValue({
+        title: selectedItemForEdit.title,
+        description: selectedItemForEdit.description,
+        link: selectedItemForEdit.link,
+      });
+
+      setFileList(
+        selectedItemForEdit.image
+          ? [
+              {
+                uid: "-1",
+                name: selectedItemForEdit.image,
+                status: "done",
+                url: BASE_URL + selectedItemForEdit.image,
+              },
+            ]
+          : [],
+      );
+    } else {
+      form.resetFields();
+      setFileList([]);
+    }
+  }, [selectedItemForEdit, form]);
 
   const onFinish = async (values) => {
     try {
       dispatch(ShowLoading());
-      let response;
+      const formData = new FormData();
+      formData.append("title", values.title);
+      formData.append("description", values.description);
+      formData.append("link", values.link || "");
+
+      if (fileList[0]?.originFileObj) {
+        formData.append("image", fileList[0].originFileObj);
+      }
 
       if (selectedItemForEdit) {
-        response = await axios.post("/api/portfolio/update-course", {
-          ...values,
-          _id: selectedItemForEdit._id,
-        });
-      } else {
-        response = await axios.post("/api/portfolio/add-course", values);
+        formData.append("_id", selectedItemForEdit._id);
       }
+
+      const response = selectedItemForEdit
+        ? await axios.post("/api/portfolio/update-course", formData)
+        : await axios.post("/api/portfolio/add-course", formData);
+
+      dispatch(HideLoading());
 
       if (response.data.success) {
         message.success(response.data.message);
         setShowAddEditModal(false);
-        form.resetFields();
+        setSelectedItemForEdit(null);
         dispatch(ReloadData(true));
       } else {
         message.error(response.data.message);
       }
     } catch (error) {
-      message.error(error.response?.data?.message || "Something went wrong");
-    } finally {
       dispatch(HideLoading());
+      message.error("Something went wrong");
     }
   };
 
@@ -55,13 +92,12 @@ function AdminCourses() {
 
       if (response.data.success) {
         message.success(response.data.message);
+
         dispatch(ReloadData(true));
-      } else {
-        message.error(response.data.message);
       }
-    } catch (error) {
+    } catch {
       dispatch(HideLoading());
-      message.error(error.message || "Something went wrong");
+      message.error("Something went wrong");
     }
   };
 
@@ -74,7 +110,6 @@ function AdminCourses() {
           onClick={() => {
             setSelectedItemForEdit(null);
             setShowAddEditModal(true);
-            form.resetFields();
           }}
         >
           Add Course
@@ -112,9 +147,6 @@ function AdminCourses() {
                 onClick={() => {
                   setSelectedItemForEdit(course);
                   setShowAddEditModal(true);
-                  setTimeout(() => {
-                    form.setFieldsValue(course);
-                  }, 0);
                 }}
               >
                 Edit
@@ -124,9 +156,13 @@ function AdminCourses() {
             {/* Content */}
             <p className="text-primary font-semibold pt-4">{course.title}</p>
             <img
-              src={course.image}
+              src={
+                course.image
+                  ? BASE_URL + course.image
+                  : "https://placehold.co/600x400?text=No+Image"
+              }
               alt={course.title}
-              className="w-full rounded mt-3"
+              className="w-full rounded"
             />
             <p className="text-black text-sm leading-relaxed mt-3 mb-0">
               {course.description}
@@ -142,7 +178,7 @@ function AdminCourses() {
         footer={null}
         onCancel={() => {
           setShowAddEditModal(false);
-          form.resetFields();
+          setSelectedItemForEdit(null);
         }}
       >
         <Form form={form} layout="vertical" onFinish={onFinish}>
@@ -154,12 +190,17 @@ function AdminCourses() {
             <Input placeholder="Course Name" />
           </Form.Item>
 
-          <Form.Item
-            name="image"
-            label="Image URL"
-            rules={[{ required: true }]}
-          >
-            <Input placeholder="Image URL" />
+          {/* ✅ Upload Image */}
+          <Form.Item label="Course Image">
+            <Upload
+              listType="picture"
+              maxCount={1}
+              beforeUpload={() => false}
+              fileList={fileList}
+              onChange={({ fileList }) => setFileList(fileList)}
+            >
+              <Button icon={<UploadOutlined />}>Upload Image</Button>
+            </Upload>
           </Form.Item>
 
           <Form.Item
@@ -174,16 +215,8 @@ function AdminCourses() {
             <Input placeholder="Link" />
           </Form.Item>
 
-          <div className="flex justify-end gap-3 mt-4">
-            <Button
-              onClick={() => {
-                setShowAddEditModal(false);
-                form.resetFields();
-              }}
-            >
-              Cancel
-            </Button>
-
+          <div className="flex justify-end gap-3">
+            <Button onClick={() => setShowAddEditModal(false)}>Cancel</Button>
             <Button type="primary" htmlType="submit">
               {selectedItemForEdit ? "Update" : "Add"}
             </Button>

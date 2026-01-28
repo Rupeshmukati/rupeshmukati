@@ -26,16 +26,14 @@ function AdminIntro() {
 
       // AdminIntro.js ke onFinish ke andar ye logic check karein
       if (values.image && values.image.length > 0) {
-        // Agar nayi file select hui hai
-        if (values.image[0].originFileObj) {
-          formData.append("image", values.image[0].originFileObj);
+        const fileObj = values.image[0].originFileObj;
+        if (fileObj) {
+          // Nayi file upload ho rahi hai
+          formData.append("image", fileObj);
         } else {
-          // Purani image ka naam hi bhej rahe hain
+          // Purani file hi hai, uska naam bhej rahe hain
           formData.append("image", values.image[0].name);
         }
-      } else {
-        // User ne delete button dabaya hai
-        formData.append("image", "");
       }
 
       const response = await axios.post(
@@ -67,7 +65,7 @@ function AdminIntro() {
             uid: "-1",
             name: portfolioData.intro.image,
             status: "done",
-            url: `http://localhost:5000/uploads/${portfolioData.intro.image}`,
+            url: `/uploads/profile/${portfolioData.intro.image}`,
           },
         ]
       : [],

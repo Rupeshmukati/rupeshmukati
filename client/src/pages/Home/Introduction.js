@@ -8,8 +8,7 @@ function Introduction() {
   const dispatch = useDispatch();
   const { portfolioData } = useSelector((state) => state.root);
   const { intro } = portfolioData || {};
-  const { firstName, lastName, welcomeText, description, caption, image } =
-    intro || {};
+  const { firstName, lastName, welcomeText, description, caption, image } =  intro || {};
   const [open, setOpen] = useState(false);
 
   const onFinish = async (values) => {
@@ -74,7 +73,7 @@ function Introduction() {
         <div className="relative flex justify-center order-1 md:order-2">
           <figure className="relative z-10">
             <img
-              src={image ? `/uploads/${image}` : "/rupesh-profile.png"}
+              src={image ? `/uploads/profile/${image}` : "/rupesh-profile.png"}
               alt={`${firstName}${lastName} Profile`}
               className="w-[220px] md:w-[280px] lg:w-[300px] rounded-full object-cover border-4 border-white/10 z-50"
             />
