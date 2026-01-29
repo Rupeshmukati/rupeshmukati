@@ -36,11 +36,11 @@ function AdminSocialurl() {
       initialValues={portfolioData?.socialurl}
     >
       <Form.Item
-        label="Facebook"
-        name="facebook"
-        rules={[{ message: "Please Enter Facebook Link" }]}
+        label="WhatsApp"
+        name="whatsapp"
+        rules={[{ message: "Please Enter WhatsApp Link" }]}
       >
-        <Input placeholder="Facebook Link" />
+        <Input placeholder="WhatsApp Link" />
       </Form.Item>
 
       <Form.Item

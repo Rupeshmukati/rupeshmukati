@@ -4,12 +4,12 @@ import { useState, useEffect } from "react";
 const Header = () => {
   const { portfolioData } = useSelector((state) => state.root);
   const { socialurl } = portfolioData || {};
-  const { facebook, instagram, linkedin, emailid } = socialurl || {};
+  const { whatsapp, instagram, linkedin, emailid } = socialurl || {};
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [isSticky, setIsSticky] = useState(false);
 
-  const hasAnySocial = !!(facebook || instagram || linkedin || emailid);
+  const hasAnySocial = !!(whatsapp || instagram || linkedin || emailid);
 
   // Sticky header on scroll
   useEffect(() => {
@@ -67,14 +67,14 @@ const Header = () => {
           {/* Social Icons */}
           {hasAnySocial && (
             <div className="flex gap-3">
-              {facebook && (
+              {whatsapp && (
                 <a
-                  href={facebook}
+                  href={whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Facebook profile"
+                  aria-label="WhatsApp Number"
                 >
-                  <i className="ri-facebook-circle-line text-gray-400 hover:text-emerald-400"></i>
+                  <i className="ri-whatsapp-line text-gray-400 hover:text-emerald-400"></i>
                 </a>
               )}
 

@@ -61,7 +61,7 @@ const socialurlSchema = new mongoose.Schema({
     match: [/^\S+@\S+\.\S+$/, "Invalid email"],
   },
   linkedin: { type: String, required: true, trim: true },
-  instagram: { type: String, required: true, trim: true },
+  whatsapp: { type: String, required: true, trim: true },
 });
 
 const enquirySchema = new mongoose.Schema(
