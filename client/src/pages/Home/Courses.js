@@ -74,13 +74,13 @@ function Courses() {
           )}
 
           {/* Course Text Content */}
-          <div className="flex flex-col gap-1 md:gap-2 w-full mt-4 md:mt-0 sm:w-2/2 px-2 sm:px-0">
+          <div className="flex flex-col gap-1 md:gap-2 w-full mt-2 md:mt-0 sm:w-2/2 px-2 sm:px-0">
             <h2 className="text-xl sm:text-2xl text-secondary font-semibold mb-0">
               {selectedCourse.title}
             </h2>
 
             {selectedCourse.description && (
-              <p className="max-w-[600px] text-white text-sm sm:text-base leading-relaxed mt-2 mb-0">
+              <p className="max-w-[600px] text-white text-sm sm:text-base leading-relaxed mb-0">
                 {selectedCourse.description}
               </p>
             )}

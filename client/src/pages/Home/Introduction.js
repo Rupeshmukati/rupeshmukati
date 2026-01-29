@@ -34,7 +34,7 @@ function Introduction() {
       className="relative bg-primary overflow-hidden"
       aria-label="Introduction Section"
     >
-      <div className="bg-primary sm:py-20 pt-6 pb-10 sm:px-0 intro_section grid grid-cols-1 md:grid-cols-[60%_40%] gap-8 md:gap-0">
+      <div className="bg-primary sm:py-20 pt-6 pb-10 sm:px-0 intro_section grid grid-cols-1 md:grid-cols-[60%_40%] gap-5 md:gap-0">
         {/* LEFT: Text content */}
         <div className="flex flex-col gap-3 md:gap-6 sm:gap-4 justify-center md:items-start items-center order-2 md:order-1 md:text-left text-center">
           {welcomeText && (

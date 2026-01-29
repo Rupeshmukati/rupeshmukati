@@ -57,7 +57,7 @@ function Project() {
         </nav>
 
         {/* Right – Project Details */}
-        <div className="flex flex-col md:flex-row gap-6 sm:gap-10 items-center w-full md:w-3/4 pb-10">
+        <div className="flex flex-col md:flex-row sm:pb-10 sm:pt-0 pt-0 pb-10 gap-3 md:gap-10 md:items-center justify-center w-full md:w-3/4">
           {/* Image */}
           {selectedProject.link ? (
             <a
@@ -74,19 +74,19 @@ function Project() {
           )}
 
           {/* Text */}
-          <div className="flex flex-col gap-2 w-full">
-            <h2 className="text-xl sm:text-2xl text-secondary font-semibold">
+          <div className="flex flex-col gap-1 md:gap-2 w-full mt-2 md:mt-0 sm:w-2/2 px-2 sm:px-0">
+            <h2 className="text-xl sm:text-2xl text-secondary font-semibold mb-0">
               {selectedProject.title}
             </h2>
 
             {selectedProject.description && (
-              <p className="max-w-[600px] text-white text-sm sm:text-base leading-relaxed">
+              <p className="max-w-[600px] text-white text-sm sm:text-base leading-relaxed mb-0">
                 {selectedProject.description}
               </p>
             )}
 
             {selectedProject.technologies?.length > 0 && (
-              <p className="max-w-[600px] text-white text-sm sm:text-base">
+              <p className="max-w-[600px] text-white text-sm sm:text-base mb-0">
                 <span className="font-medium">Technologies:</span>{" "}
                 {selectedProject.technologies.join(", ")}
               </p>
