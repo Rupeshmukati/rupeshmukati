@@ -15,7 +15,7 @@ function Contact() {
       id="contact"
       aria-labelledby="contact-title"
     >
-      <SectionTitle title="Say Hello" id="contact-title" />
+      <SectionTitle title="Let’s Connect" id="contact-title" />
 
       <div className="flex flex-col md:flex-row pt-0 gap-3 sm:gap-10 items-center justify-center">
         {/* LEFT SIDE – USER DETAILS */}
