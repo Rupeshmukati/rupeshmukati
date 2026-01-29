@@ -17,7 +17,7 @@ function Contact() {
     >
       <SectionTitle title="Say Hello" id="contact-title" />
 
-      <div className="flex flex-col md:flex-row sm:pb-10 pt-0 pb-10 gap-3 sm:gap-10 items-center justify-center">
+      <div className="flex flex-col md:flex-row pt-0 gap-3 sm:gap-10 items-center justify-center">
         {/* LEFT SIDE – USER DETAILS */}
         <div className="flex flex-col gap-3 sm:gap-4 w-full mt-4 md:mt-0 sm:w-2/2 px-5 sm:px-0 items-start">
           <pre className="text-tertiary mb-0">{"{"}</pre>
